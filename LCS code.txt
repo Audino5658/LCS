@@ -1,0 +1,115 @@
+#include<iostream>
+#include<string> 
+
+using namespace std;
+int shor, lon; 
+int *curr;
+int *pre;
+
+int LCS_Length(char *X, char *Y)
+{
+    curr = new int [shor];
+	pre =  new int [shor];
+
+     memset(pre, 0, shor);
+	 memset(curr, 0, shor);
+	
+	//curr[0] = 0;
+
+    //for(int j=0;j<lon;j++)
+	  //pre[j] = 0;
+
+	for(int i=0; i<lon ;i++)
+	{
+		
+   
+	for(int j=0;j<shor-1;j++)
+	{
+
+		if(X[i]==Y[j])
+        {
+			curr[j+1] = pre[j]+1;
+		}
+		else 
+		{
+		  if(curr[j]>=pre[j+1])
+		  {
+			  curr[j+1] = curr[j];
+		  }
+		  else
+		  curr[j+1] = pre[j+1]; 
+		}
+		
+	 }
+	    for(int j=0;j<shor;j++)
+			pre[j] = curr[j];
+	    
+		// memcpy(pre, &curr, lon );  
+
+	}
+
+	return curr[shor-1];
+}
+
+
+
+
+int main()
+{
+	char *X, *Y;
+	
+
+	string strx, stry;
+
+	cin >> strx;
+	cin >> stry;
+
+	if ( stry.length() > strx.length() )
+    {
+	   shor = strx.length();
+	   lon = stry.length();
+
+	   	X = new char [lon+1];
+	    Y = new char [shor+1];
+
+	   	strx.copy(Y,shor);
+	    stry.copy(X,lon);
+
+	}
+	else
+	{
+	    lon = strx.length();
+	    shor = stry.length();
+
+	    X = new char [lon+1];
+	    Y = new char [shor+1];
+
+	    strx.copy(X,lon);
+	    stry.copy(Y,shor);
+	}
+   
+/*
+	for(int j=0;j<lon;j++)
+	cout << X[j];
+
+	cout << endl;
+
+	for(int j=0;j<shor;j++)
+	cout << Y[j];
+*/
+	X[shor+1] = '\0';
+	Y[lon+1] = '\0';
+
+
+	cout << "Length of LCS = " <<LCS_Length(X,Y) << endl ;
+
+
+
+	 delete[] (X);
+	 delete[] (Y);
+	 delete[] (curr);
+	 delete[] (pre);
+
+	system("pause");
+	return 0;
+}
